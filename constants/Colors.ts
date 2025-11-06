@@ -20,7 +20,7 @@ export const Colors = {
 		text: "#ECEDEE",
 		background: "#151718",
 		tint: tintColorDark,
-		icon: "#9BA1A6",
+		icon: "white",
 		tabIconDefault: "#9BA1A6",
 		tabIconSelected: tintColorDark,
 		indicator: "#e67e22",
