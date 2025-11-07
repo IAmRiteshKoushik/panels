@@ -9,7 +9,7 @@ interface FullWallpaper extends Wallpaper {
 	library: boolean;
 }
 
-export function useSuggestedWallpapers(): FullWallpaper[] {
+export function useSuggestedwallpapers(): FullWallpaper[] {
 	const wallpapers = useWallpapers();
 	return wallpapers.filter((wallpaper) => wallpaper.suggested);
 }
