@@ -7,9 +7,10 @@ import {
 import {
   createMaterialTopTabNavigator
 } from '@react-navigation/material-top-tabs';
-import { StyleSheet, useColorScheme, View } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedView } from '@/components/ThemedView';
+import { Colors } from '@/constants/Colors';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -27,8 +28,9 @@ export default function ForYou() {
       screenOptions={{
         tabBarStyle: {
           paddingTop: insets.top,
-          backgroundColor: 'white',
-        }
+          backgroundColor: Colors[theme].background,
+        },
+        tabBarActiveTintColor: Colors[theme].tint
       }}
     >
       <Tab.Screen name="Library" component={LibraryScreen} />
