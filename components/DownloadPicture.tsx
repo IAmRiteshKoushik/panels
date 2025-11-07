@@ -1,7 +1,17 @@
 import React, { useCallback, useRef } from 'react';
-import { StyleSheet, useColorScheme, Image, Button } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  useColorScheme,
+  Image,
+  Pressable,
+  Text
+} from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Wallpaper } from '@/hooks/useWallpapers';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Colors } from '@/constants/Colors';
+import { ThemedText } from './ThemedText';
 
 export const DownloadPicture = ({ onClose, wallpaper }: {
   onClose: () => void;
@@ -18,21 +28,73 @@ export const DownloadPicture = ({ onClose, wallpaper }: {
 
   return (
     <BottomSheet
+      style={{ paddingTop: 0 }}
       onClose={onClose}
       snapPoints={["90%"]}
       ref={bottomSheetRef}
       onChange={handleSheetChanges}
-      enableDynamicSizing={false}
       enablePanDownToClose={true}
       handleIndicatorStyle={{ display: "none" }}
+      handleStyle={{ display: "none" }}
     >
       <BottomSheetView style={styles.contentContainer}>
-        <Image style={{ flex: 1 }} source={{ uri: wallpaper.url }} />
-        <Button title="Download"></Button>
+        <Image style={styles.image} source={{ uri: wallpaper.url }} />
+        <View style={styles.topBar}>
+          <Ionicons
+            name={"close"}
+            size={18}
+            color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+          />
+          <View style={styles.topBarInner}>
+            <Ionicons
+              name={"share"}
+              size={18}
+              color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+              style={{ paddingRight: 4 }}
+            />
+            <Ionicons
+              name={"heart"}
+              size={18}
+              color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+            />
+          </View>
+        </View>
+        <View style={styles.textContainer}>
+          <ThemedText style={styles.text}>{wallpaper.name}</ThemedText>
+        </View>
+        <DownloadButton />
       </BottomSheetView>
     </BottomSheet>
   );
 };
+
+function DownloadButton() {
+
+  const theme = useColorScheme() ?? 'light';
+
+  return <Pressable style={{
+    backgroundColor: "black",
+    padding: 10,
+    marginVertical: 20,
+    marginHorizontal: 40,
+    justifyContent: "center",
+    borderRadius: 10,
+    flexDirection: "row",
+  }}>
+    <Ionicons
+      name={"download"}
+      size={24}
+      color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+      style={{ paddingRight: 4 }}
+    />
+    <Text style={{
+      fontSize: 20,
+      color: "white",
+      fontWeight: "600"
+    }}
+    >Download</Text>
+  </Pressable>
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +103,38 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
+  // Deviations from the usual "heigth" property as it was not working
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    aspectRatio: 1,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  topBar: {
+    position: "absolute",
+    padding: 10,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%"
+  },
+  topBarInner: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  textContainer: {
+    justifyContent: "center",
+    backgroundColor: 'black',
+    display: "flex",
+    width: "100%"
+  },
+  text: {
+    paddingTop: 20,
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "600",
+  }
 });
 
 export default DownloadPicture;
